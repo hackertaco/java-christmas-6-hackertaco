@@ -3,9 +3,6 @@ package christmas.config;
 import java.util.List;
 
 public class RuleConfig {
-    public static final int MIN_DAY = 1;
-    public static final int MAX_DAY = 31;
-
     public static final String MENU_SPLITTER = ",";
     public static final String MENU_DIVIDER = "-";
 
@@ -18,6 +15,10 @@ public class RuleConfig {
     public static final int TARGET_YEAR = 2023;
     public static final int TARGET_MONTH = 12;
     public static final int DATE_DISCOUNT_PRICE = 2023;
+    public static final int SPECIAL_DISCOUNT_PRICE = 1000;
+
+    public static final int D_DAY = 25;
+    public static final int EVENT_START_DAY = 1;
 
     public static final String WEEKEND_DISCOUNT_MENU_GROUP = "MAIN";
     public static final String WEEKDAY_DISCOUNT_MENU_GROUP = "DESSERT";
