@@ -1,4 +1,4 @@
-package christmas;
+package christmas.model;
 
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", 6000),

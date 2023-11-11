@@ -1,4 +1,4 @@
-package christmas;
+package christmas.model;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,5 +17,9 @@ public enum MenuGroup {
 
     public List<Menu> getMenuGroup(){
         return menuGroup;
+    }
+
+    public boolean contains(Menu targetMenu) {
+        return getMenuGroup().stream().anyMatch(menu -> menu.equals(targetMenu));
     }
 }
