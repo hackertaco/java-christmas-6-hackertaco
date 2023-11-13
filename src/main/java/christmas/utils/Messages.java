@@ -17,5 +17,6 @@ public class Messages {
 
     public static final String MONEY_UNIT = "%d원%n";
 
+    public static final String EVENT_FORMAT = ": -";
     public static final String GIFT_DETAIL = "%s %d개\n";
 }
