@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 
 public class Order {
-    private Menu menu;
-    private int count;
+    private final Menu menu;
+    private final int count;
 
     private Order(String menuName, String menuCount){
         menu = Arrays.stream(Menu.values()).filter(m->m.getName().equals(menuName)).findAny().get();
@@ -44,6 +44,7 @@ public class Order {
     public String toString(){
         return menu.getName()+ " " +count+"개";
     }
+
     private static void validateMenu(String menuNameBeforeValidated){
         if(!isAvailableMenu(menuNameBeforeValidated)){
             throw new IllegalArgumentException(INVALID_ORDER);
@@ -61,12 +62,14 @@ public class Order {
         }
     }
     private static boolean isAvailableMenu(String menuNameBeforeValidated){
-        return Arrays.stream(Menu.values()).anyMatch(s -> s.getName().equals(menuNameBeforeValidated));
+        return Arrays.stream(Menu.values())
+                .anyMatch(menu -> menu.getName().equals(menuNameBeforeValidated));
     }
 
     private static void validateMenuCount(String menuCountBeforeValidated){
         checkZeroCount(parseStringToInt(menuCountBeforeValidated));
     }
+
     private static int parseStringToInt(String menuCountBeforeValidated){
         try {
             return Integer.parseInt(menuCountBeforeValidated);
@@ -74,6 +77,7 @@ public class Order {
             throw new IllegalArgumentException(INVALID_ORDER);
         }
     }
+
     private static void checkZeroCount(int count){
         if(count < MIN_ORDER_COUNT){
             throw new IllegalArgumentException(INVALID_ORDER);

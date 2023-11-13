@@ -13,22 +13,14 @@ import java.util.Objects;
 public class ReservationDate{
     private final int eventDate;
 
-    public ReservationDate(String pickedDate){
-        int parsedDate = parseStringToInt(pickedDate);
-        validatePickedDate(parsedDate);
-        eventDate = parsedDate;
-    }
-    private int parseStringToInt(String pickedDate){
-        try {
-            return Integer.parseInt(pickedDate);
-        } catch (NumberFormatException e){
-            throw new IllegalArgumentException(INVALID_DATE);
-        }
+    public ReservationDate(int pickedDate){
+        validatePickedDate(pickedDate);
+        eventDate = pickedDate;
     }
 
-    public static void validatePickedDate(int day){
+    private void validatePickedDate(int day){
         LocalDate date = LocalDate.of(TARGET_YEAR, TARGET_MONTH, 1);
-        if(day < 1 || day > date.lengthOfMonth()){
+        if(day < EVENT_START_DAY || day > date.lengthOfMonth()){
             throw new IllegalArgumentException(INVALID_DATE);
         }
     }

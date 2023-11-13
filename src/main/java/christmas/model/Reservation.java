@@ -1,5 +1,6 @@
 package christmas.model;
 
+import static christmas.config.RuleConfig.EVENT_MIN_BOUND;
 import static christmas.config.RuleConfig.GIVING_EVENT_MIN_BOUND;
 import static christmas.config.RuleConfig.WEEKDAY_DISCOUNT_MENU_GROUP;
 import static christmas.config.RuleConfig.WEEKEND_DISCOUNT_MENU_GROUP;
@@ -9,9 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Reservation {
-    OrderDetails orderDetails;
-    ReservationDate date;
-    List<EventDetail> events;
+    private final OrderDetails orderDetails;
+    private final ReservationDate date;
+    private final List<EventDetail> events;
 
     public Reservation(OrderDetails orderDetails, ReservationDate date){
         this.date = date;
@@ -19,15 +20,21 @@ public class Reservation {
         this.events = new ArrayList<>();
     }
     public void createEvents(){
-        checkWeekendDiscountEvent();
-        checkWeekdayDiscountEvent();
-        checkDdayEvent();
-        checkSpecialEvent();
-        checkGivingEvent();
+        if(getTotalPrice() >= EVENT_MIN_BOUND){
+            checkWeekendDiscountEvent();
+            checkWeekdayDiscountEvent();
+            checkDdayEvent();
+            checkSpecialEvent();
+            checkGivingEvent();
+        }
+
+        if(isEventNone()){
+            events.add(EventDetail.createEvent(Event.NONE, 0));
+        }
     }
     private void checkWeekendDiscountEvent(){
         int count = countTargetMenu(MenuGroup.valueOf(WEEKEND_DISCOUNT_MENU_GROUP));
-        if(date.isWeekend() & count > 0){
+        if(date.isWeekend() && count > 0){
             events.add(EventDetail.createEvent(Event.WEEKEND, count));
         }
     }
@@ -49,7 +56,7 @@ public class Reservation {
     }
 
     private void checkGivingEvent(){
-        if(isTargetOfGivingEvent()){
+        if(isEligibleForGivingEvent()){
             events.add(EventDetail.createEvent(Event.GIFT, 1));
         }
     }
@@ -57,27 +64,28 @@ public class Reservation {
     private int countTargetMenu(MenuGroup menuGroup) {
         return orderDetails.countTargetMenu(menuGroup.getMenuGroup());
     }
-
+    // dto 고려
     public List<String> getOrderDetails(){
         return orderDetails.getOrders();
     }
-
+    // dto 고려
     public int getTotalPrice(){
         return orderDetails.countTotal();
     }
 
+    // dto 고려
     public int getTotalEventPrice(){
         return events.stream().mapToInt(EventDetail::getDiscountPrice).sum();
     }
-    public boolean isTargetOfGivingEvent(){
+
+    public boolean isEligibleForGivingEvent(){
         return orderDetails.countTotal() >= GIVING_EVENT_MIN_BOUND;
     }
 
     public boolean isEventNone(){
         return events.size() == 0;
     }
-
-
+    // dto 고려
     public List<String> getEvents(){
         return events.stream().map(EventDetail::toString).collect(Collectors.toList());
     }
