@@ -27,51 +27,51 @@ public class OutputView {
         printer.printf(message, args);
     }
 
-    public void printMessage(String message){
-        printer.print(message);
-    }
-
     public void showMenu(List<String> menus){
         printer.print(MENU_HEADER);
         for(String menu: menus){
             printer.print(menu);
         }
+        addLineForReadability();
     }
     public void showTotal(int totalPrice){
         printer.print(TOTAL_ORDER_AMOUNT_HEADER);
         printer.printf(String.valueOf(totalPrice));
-        printer.print("");
+        addLineForReadability();
     }
     public void showGift(Reservation reservation){
         printer.print(GIFT_MENU_HEADER);
-        if(reservation.isTargetOfGivingEvent()){
+        if(reservation.isEligibleForGivingEvent()){
             printer.printf(GIFT_DETAIL, Menu.valueOf(GIVING_EVENT_PRODUCT).getName(), 1);
             return;
         }
         printer.print(NO_GIFT_MESSAGE);
-
+        addLineForReadability();
     }
     public void showTotalEventList(Reservation reservation){
         printer.print(BENEFIT_LIST_HEADER);
-        if(reservation.isEventNone()){
-            printer.print(NO_BENEFIT_MESSAGE);
-            return;
-        }
         for (String event: reservation.getEvents()){
             printer.print(event);
         }
+        addLineForReadability();
     }
     public void showTotalEventPrice(int eventTotalPrice){
         printer.print(TOTAL_BENEFIT_AMOUNT_HEADER);
         printer.printf(MONEY_UNIT, eventTotalPrice);
+        addLineForReadability();
     }
     public void showPriceAfterDiscount(int afterDiscountPrice){
         System.out.println(AFTER_DISCOUNT_AMOUNT_HEADER);
         printer.printf(MONEY_UNIT, afterDiscountPrice);
+        addLineForReadability();
     }
     public void showBadge(String badge){
         printer.printf(MONTHLY_BADGE_HEADER, TARGET_MONTH);
-
         printer.print(badge);
+        addLineForReadability();
+    }
+
+    private void addLineForReadability(){
+        printer.print("");
     }
 }
