@@ -7,4 +7,9 @@ public class InputConsole implements Input {
     public String getInput() {
         return Console.readLine();
     }
+
+    @Override
+    public void close(){
+        Console.close();
+    }
 }
