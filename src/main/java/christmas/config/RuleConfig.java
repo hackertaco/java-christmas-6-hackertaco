@@ -11,6 +11,7 @@ public class RuleConfig {
 
     public static final int GIVING_EVENT_MIN_BOUND = 120000;
     public static final String GIVING_EVENT_PRODUCT = "CHAMPAGNE";
+    public static final int EVENT_MIN_BOUND = 10000;
 
     public static final int TARGET_YEAR = 2023;
     public static final int TARGET_MONTH = 12;
