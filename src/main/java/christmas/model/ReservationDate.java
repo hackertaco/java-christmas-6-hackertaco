@@ -18,13 +18,6 @@ public class ReservationDate{
         eventDate = pickedDate;
     }
 
-    private void validatePickedDate(int day){
-        LocalDate date = LocalDate.of(TARGET_YEAR, TARGET_MONTH, 1);
-        if(day < EVENT_START_DAY || day > date.lengthOfMonth()){
-            throw new IllegalArgumentException(INVALID_DATE);
-        }
-    }
-
     public boolean isWeekend(){
         LocalDate date = LocalDate.of(TARGET_YEAR, TARGET_MONTH, eventDate);
         String day = date.getDayOfWeek().toString();
@@ -41,5 +34,12 @@ public class ReservationDate{
 
     public boolean isInSpecialDay(){
         return SPECIAL_DISCOUNT_DATE.contains(eventDate);
+    }
+
+    private void validatePickedDate(int day){
+        LocalDate date = LocalDate.of(TARGET_YEAR, TARGET_MONTH, 1);
+        if(day < EVENT_START_DAY || day > date.lengthOfMonth()){
+            throw new IllegalArgumentException(INVALID_DATE);
+        }
     }
 }

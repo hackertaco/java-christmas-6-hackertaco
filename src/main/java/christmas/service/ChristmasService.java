@@ -13,6 +13,7 @@ public class ChristmasService {
     public OrderDetails createOrderDetails(List<String> orders) {
         return new OrderDetails(orders);
     }
+
     public void createEvents(Reservation reservation){
         reservation.createEvents();
     }

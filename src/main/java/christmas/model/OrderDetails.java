@@ -9,11 +9,32 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class OrderDetails {
-    private List<Order> orders = new ArrayList<>();
+    private final List<Order> orders = new ArrayList<>();
 
     public OrderDetails(List<String> ordersBeforeValidated){
         orders.addAll(ordersBeforeValidated.stream().map(Order::createOrder).toList());
         validateOrders();
+    }
+
+    public int countTotal(){
+        return orders.stream().mapToInt(Order::getPrice).sum();
+    }
+
+    public int countTargetMenu(List<Menu> targetMenus){
+        return orders.stream()
+                .filter(order -> targetMenus.contains(order.getMenu()))
+                .mapToInt(Order::getCount)
+                .sum();
+    }
+
+    public List<String> getOrders(){
+        return orders.stream().map(Order::toString).collect(Collectors.toList());
+    }
+
+    private void validateOrders(){
+        if(isMenuDuplicate() || existOnlyBeverage() || exceedMaxOrderCount()){
+            throw new IllegalArgumentException(INVALID_ORDER);
+        }
     }
 
     private boolean isMenuDuplicate(){
@@ -33,26 +54,5 @@ public class OrderDetails {
                 .sum();
 
         return orderCount > MAX_ORDER_COUNT;
-    }
-    // dto 고려
-    public int countTotal(){
-        return orders.stream().mapToInt(Order::getPrice).sum();
-    }
-
-    public int countTargetMenu(List<Menu> targetMenus){
-        return orders.stream()
-                .filter(order -> targetMenus.contains(order.getMenu()))
-                .mapToInt(Order::getCount)
-                .sum();
-    }
-    // dto 고려
-    public List<String> getOrders(){
-        return orders.stream().map(Order::toString).collect(Collectors.toList());
-    }
-
-    private void validateOrders(){
-        if(isMenuDuplicate() || existOnlyBeverage() || exceedMaxOrderCount()){
-            throw new IllegalArgumentException(INVALID_ORDER);
-        }
     }
 }

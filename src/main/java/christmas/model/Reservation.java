@@ -2,6 +2,7 @@ package christmas.model;
 
 import static christmas.config.RuleConfig.EVENT_MIN_BOUND;
 import static christmas.config.RuleConfig.GIVING_EVENT_MIN_BOUND;
+import static christmas.config.RuleConfig.GIVING_EVENT_PRODUCT_COUNT;
 import static christmas.config.RuleConfig.WEEKDAY_DISCOUNT_MENU_GROUP;
 import static christmas.config.RuleConfig.WEEKEND_DISCOUNT_MENU_GROUP;
 
@@ -32,6 +33,7 @@ public class Reservation {
             events.add(EventDetail.createEvent(Event.NONE, 0));
         }
     }
+
     private void checkWeekendDiscountEvent(){
         int count = countTargetMenu(MenuGroup.valueOf(WEEKEND_DISCOUNT_MENU_GROUP));
         if(date.isWeekend() && count > 0){
@@ -57,23 +59,21 @@ public class Reservation {
 
     private void checkGivingEvent(){
         if(isEligibleForGivingEvent()){
-            events.add(EventDetail.createEvent(Event.GIFT, 1));
+            events.add(EventDetail.createEvent(Event.GIFT, GIVING_EVENT_PRODUCT_COUNT));
         }
     }
 
     private int countTargetMenu(MenuGroup menuGroup) {
         return orderDetails.countTargetMenu(menuGroup.getMenuGroup());
     }
-    // dto 고려
     public List<String> getOrderDetails(){
         return orderDetails.getOrders();
     }
-    // dto 고려
+
     public int getTotalPrice(){
         return orderDetails.countTotal();
     }
 
-    // dto 고려
     public int getTotalEventPrice(){
         return events.stream().mapToInt(EventDetail::getDiscountPrice).sum();
     }
@@ -85,7 +85,7 @@ public class Reservation {
     public boolean isEventNone(){
         return events.size() == 0;
     }
-    // dto 고려
+
     public List<String> getEvents(){
         return events.stream().map(EventDetail::toString).collect(Collectors.toList());
     }
