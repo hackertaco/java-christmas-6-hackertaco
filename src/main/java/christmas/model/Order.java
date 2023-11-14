@@ -3,6 +3,7 @@ package christmas.model;
 import static christmas.config.RuleConfig.MENU_DIVIDER;
 import static christmas.config.RuleConfig.MIN_ORDER_COUNT;
 import static christmas.utils.ErrorMessages.INVALID_ORDER;
+import static christmas.utils.Messages.MENU_FORMAT;
 
 import java.util.Arrays;
 
@@ -12,7 +13,10 @@ public class Order {
     private final int count;
 
     private Order(String menuName, String menuCount){
-        menu = Arrays.stream(Menu.values()).filter(m->m.getName().equals(menuName)).findAny().get();
+        menu = Arrays.stream(Menu.values())
+                .filter(m->m.getName().equals(menuName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_ORDER));
         count = Integer.parseInt(menuCount);
     }
 
@@ -42,7 +46,7 @@ public class Order {
 
     @Override
     public String toString(){
-        return menu.getName()+ " " +count+"개";
+        return String.format(MENU_FORMAT, menu.getName(), count);
     }
 
     private static void validateMenu(String menuNameBeforeValidated){

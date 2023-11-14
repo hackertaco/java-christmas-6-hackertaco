@@ -1,5 +1,6 @@
 package christmas.model;
 
+import static christmas.utils.Messages.UNIT;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ class EventDetailTest {
     void getDiscountPrice(Event event, int count) {
         EventDetail eventDetail = EventDetail.createEvent(event, count);
 
-        assertEquals(event.calculate(count), eventDetail.getDiscountPrice());
+        assertEquals(event.calculatePrice(count), eventDetail.getDiscountPrice());
     }
 
 
@@ -24,7 +25,7 @@ class EventDetailTest {
     void testToString(Event event, int count) {
         EventDetail eventDetail = EventDetail.createEvent(event, count);
 
-        assertEquals(event.getName()+": -" + eventDetail.getDiscountPrice(), eventDetail.toString());
+        assertEquals(event.getName()+": -" + UNIT.apply(eventDetail.getDiscountPrice()), eventDetail.toString());
     }
 
     private static Stream<Arguments> eventCountProvider() {
