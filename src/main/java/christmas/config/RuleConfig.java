@@ -21,6 +21,7 @@ public class RuleConfig {
     // 증정 이벤트 관련
     public static final int GIVING_EVENT_MIN_BOUND = 120000;
     public static final String GIVING_EVENT_PRODUCT = "CHAMPAGNE";
+    public static final int GIVING_EVENT_PRODUCT_COUNT = 1;
 
     // 할인 이벤트 관련
     public static final int DATE_DISCOUNT_PRICE = 2023;

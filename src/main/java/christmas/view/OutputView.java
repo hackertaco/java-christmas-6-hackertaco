@@ -1,10 +1,10 @@
 package christmas.view;
 
-import static christmas.config.RuleConfig.GIVING_EVENT_PRODUCT;
 import static christmas.config.RuleConfig.TARGET_MONTH;
 import static christmas.utils.Messages.*;
 
-import christmas.model.Menu;
+import christmas.model.Badge;
+import christmas.model.Gift;
 import christmas.model.Reservation;
 import christmas.utils.Printer;
 import java.util.List;
@@ -12,7 +12,6 @@ import java.util.List;
 
 public class OutputView {
     private final Printer printer;
-
 
     public OutputView(Printer printer) {
         this.printer = printer;
@@ -27,47 +26,69 @@ public class OutputView {
         printer.printf(message, args);
     }
 
-    public void showMenu(List<String> menus){
+    public void showResult(Reservation reservation){
+        showMenu(reservation);
+        showTotal(reservation);
+        showGift(reservation);
+        showTotalEventList(reservation);
+        showTotalEventPrice(reservation);
+        showPriceAfterDiscount(reservation);
+        showBadge(reservation);
+    }
+
+    private void showMenu(Reservation reservation){
+        List<String> menus = reservation.getOrderDetails();
         printer.print(MENU_HEADER);
         for(String menu: menus){
             printer.print(menu);
         }
         addLineForReadability();
     }
-    public void showTotal(int totalPrice){
+
+    private void showTotal(Reservation reservation){
+        int totalPrice = reservation.getTotalPrice();
+
         printer.print(TOTAL_ORDER_AMOUNT_HEADER);
-        printer.printf(String.valueOf(totalPrice));
+        printer.print(UNIT.apply(totalPrice));
         addLineForReadability();
     }
-    public void showGift(Reservation reservation){
+
+    private void showGift(Reservation reservation){
+        int totalPrice = reservation.getTotalPrice();
         printer.print(GIFT_MENU_HEADER);
-        if(reservation.isEligibleForGivingEvent()){
-            printer.printf(GIFT_DETAIL, Menu.valueOf(GIVING_EVENT_PRODUCT).getName(), 1);
-            return;
-        }
-        printer.print(NO_GIFT_MESSAGE);
-        addLineForReadability();
+        printer.print(Gift.getGift(totalPrice));
     }
-    public void showTotalEventList(Reservation reservation){
+
+    private void showTotalEventList(Reservation reservation){
         printer.print(BENEFIT_LIST_HEADER);
         for (String event: reservation.getEvents()){
             printer.print(event);
         }
         addLineForReadability();
     }
-    public void showTotalEventPrice(int eventTotalPrice){
+
+    private void showTotalEventPrice(Reservation reservation){
+        int totalEventPrice = reservation.getTotalEventPrice();
+
         printer.print(TOTAL_BENEFIT_AMOUNT_HEADER);
-        printer.printf(MONEY_UNIT, eventTotalPrice);
+        printer.print(UNIT.apply(totalEventPrice));
         addLineForReadability();
     }
-    public void showPriceAfterDiscount(int afterDiscountPrice){
+
+    private void showPriceAfterDiscount(Reservation reservation){
+        int totalPrice = reservation.getTotalPrice();
+        int totalEventPrice = reservation.getTotalEventPrice();
+
         System.out.println(AFTER_DISCOUNT_AMOUNT_HEADER);
-        printer.printf(MONEY_UNIT, afterDiscountPrice);
+        printer.print(UNIT.apply(totalPrice - totalEventPrice));
         addLineForReadability();
     }
-    public void showBadge(String badge){
+
+    private void showBadge(Reservation reservation){
+        int totalEventPrice = reservation.getTotalEventPrice();
+
         printer.printf(MONTHLY_BADGE_HEADER, TARGET_MONTH);
-        printer.print(badge);
+        printer.print(Badge.getBadge(totalEventPrice));
         addLineForReadability();
     }
 
