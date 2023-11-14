@@ -24,16 +24,12 @@ public class EventDetail {
     @Override
     public String toString(){
         if(discountPrice > 0){
-            return getEventName() + EVENT_FORMAT + getFormattedDiscountPrice();
+            return String.format(EVENT_FORMAT, getEventName(), UNIT.apply(discountPrice));
         }
         return getEventName();
     }
 
     private String getEventName(){
         return event.getName();
-    }
-
-    private String getFormattedDiscountPrice(){
-        return UNIT.apply(discountPrice);
     }
 }

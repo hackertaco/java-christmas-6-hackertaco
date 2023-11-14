@@ -23,7 +23,7 @@ public class Messages {
 
     // 각 포맷
     public static final Function<Integer, String> UNIT = (price) -> new DecimalFormat("###,###").format(price) + "원";
-    public static final String EVENT_FORMAT = ": -";
     public static final String MENU_FORMAT = "%s %d개";
+    public static final String EVENT_FORMAT = "%s: -%s";
     public static final String GIFT_FORMAT = "%s %d개\n";
 }
