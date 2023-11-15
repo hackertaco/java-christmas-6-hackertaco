@@ -57,6 +57,7 @@ public class OutputView {
         int totalPrice = reservation.getTotalPrice();
         printer.print(GIFT_MENU_HEADER);
         printer.print(Gift.getGift(totalPrice));
+        addLineForReadability();
     }
 
     private void showTotalEventList(Reservation reservation){
