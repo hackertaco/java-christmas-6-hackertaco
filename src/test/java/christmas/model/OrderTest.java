@@ -29,6 +29,7 @@ class OrderTest {
     }
 
     @Test
+    @DisplayName("개별 메뉴 금액 계산 테스트")
     void getPrice() {
         String menu = "티본스테이크-2";
         Order order = Order.createOrder(menu);
@@ -37,6 +38,7 @@ class OrderTest {
     }
 
     @Test
+    @DisplayName("개별 메뉴 toString 테스트")
     void testToString() {
         String menu = "티본스테이크-2";
         Order order = Order.createOrder(menu);
