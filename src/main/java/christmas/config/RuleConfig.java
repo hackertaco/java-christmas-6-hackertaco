@@ -7,9 +7,10 @@ public class RuleConfig {
     public static final String MENU_SPLITTER = ",";
     public static final String MENU_DIVIDER = "-";
 
-    // 주문 갯수 요구사항 관련
+    // 주문 요구사항 관련
     public static final int MAX_ORDER_COUNT = 20;
     public static final int MIN_ORDER_COUNT = 1;
+    public static final String NOT_PERMITTED_MENUGROUP = "BEVERAGE";
 
     // 이벤트 조건 정보
     public static final int EVENT_MIN_BOUND = 10000;

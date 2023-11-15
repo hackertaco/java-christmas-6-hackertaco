@@ -1,6 +1,7 @@
 package christmas.model;
 
 import static christmas.config.RuleConfig.MAX_ORDER_COUNT;
+import static christmas.config.RuleConfig.NOT_PERMITTED_MENUGROUP;
 import static christmas.utils.ErrorMessages.INVALID_ORDER;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class OrderDetails {
     }
 
     private void validateOrders(){
-        if(isMenuDuplicate() || existOnlyBeverage() || exceedMaxOrderCount()){
+        if(isMenuDuplicate() || existOnlyNotPermittedGroup() || exceedMaxOrderCount()){
             throw new IllegalArgumentException(INVALID_ORDER);
         }
     }
@@ -42,10 +43,9 @@ public class OrderDetails {
         return uniqueMenus.size() != orders.size();
     }
 
-    private boolean existOnlyBeverage(){
+    private boolean existOnlyNotPermittedGroup(){
         List<Menu> menus = orders.stream().map(Order::getMenu).toList();
-
-        return menus.stream().allMatch(MenuGroup.BEVERAGE::contains);
+        return menus.stream().allMatch(MenuGroup.valueOf(NOT_PERMITTED_MENUGROUP)::contains);
     }
 
     private boolean exceedMaxOrderCount(){
